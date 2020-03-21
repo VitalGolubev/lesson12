@@ -1,9 +1,16 @@
 import time
+import os
+import json
 
 
 class NotesApp:
     def __init__(self, filename=None):
         self.filename = filename if filename else 'notes.json'
+
+    def init(self):
+        if not os.path.exists(self.filename):
+            with open(self.filename, 'w') as f:
+                json.dump({'notes': []}, f, indent=2, sort_keys=True)
 
     def run(self):
         while True:
@@ -17,6 +24,9 @@ class NotesApp:
 if __name__ == '__main__':
     app = NotesApp()
     try:
+        app.init()
         app.run()
     except KeyboardInterrupt:
         app.shutdown()
+
+
